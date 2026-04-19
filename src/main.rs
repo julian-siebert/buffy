@@ -18,15 +18,51 @@ mod compilers;
 pub mod config;
 #[allow(unused_assignments)]
 pub mod error;
+mod init;
 mod publish;
 
 #[tokio::main]
 async fn main() -> miette::Result<()> {
     let cli = Cli::parse();
 
-    if let Some(_command) = cli.command {
-        println!("Not implemented yet");
-        return Ok(());
+    if let Some(command) = cli.command {
+        match command {
+            cli::Commands::Init { name, path } => {
+                init::init(&name, path).map_err(miette::Report::new)?;
+                return Ok(());
+            }
+            cli::Commands::Check => {
+                println!(
+                    "{} {}",
+                    style("[-]").green().bold(),
+                    style("Cheking").bold(),
+                );
+
+                let config = Config::load()?;
+
+                let grpc = config.package.grpc;
+
+                if config.golang.is_some() {
+                    GolangCompiler::new(grpc)?;
+                }
+
+                if config.java.is_some() {
+                    JavaCompiler::new()?;
+                }
+
+                if config.rust.is_some() {
+                    RustCompiler::new(grpc)?;
+                }
+
+                println!(
+                    "{} {}",
+                    style("[+]").green().bold(),
+                    style("Check successful. Installation seems fine.").bold(),
+                );
+
+                return Ok(());
+            }
+        };
     }
 
     dotenv::dotenv().ok();
@@ -48,8 +84,10 @@ async fn main() -> miette::Result<()> {
 
     let mut compilers: Vec<Arc<dyn Compiler>> = Vec::new();
 
+    let grpc = config.package.grpc;
+
     if config.golang.is_some() {
-        compilers.push(Arc::new(GolangCompiler::new(config.grpc)?));
+        compilers.push(Arc::new(GolangCompiler::new(grpc)?));
     }
 
     if config.java.is_some() {
@@ -57,7 +95,7 @@ async fn main() -> miette::Result<()> {
     }
 
     if config.rust.is_some() {
-        compilers.push(Arc::new(RustCompiler::new(config.grpc)?));
+        compilers.push(Arc::new(RustCompiler::new(grpc)?));
     }
 
     build::build(config.clone(), compilers.clone()).await?;

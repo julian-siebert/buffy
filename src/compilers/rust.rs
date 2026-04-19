@@ -168,7 +168,7 @@ impl Compiler for RustCompiler {
         pb.set_message("Resolving prost version...");
         let prost_version = Self::resolve_prost_version(rust_cfg.prost_version.as_ref()).await?;
 
-        let tonic_version = if cfg.grpc {
+        let tonic_version = if cfg.package.grpc {
             let v = Self::resolve_tonic_version(rust_cfg.tonic_version.as_ref()).await?;
             pb.suspend(|| {
                 eprintln!(
@@ -206,7 +206,7 @@ impl Compiler for RustCompiler {
             &cfg.package.version.to_string(),
             &prost_version,
             tonic_version.as_deref(),
-            cfg.grpc,
+            cfg.package.grpc,
         )?;
         std::fs::write(dir.join("Cargo.toml"), cargo_toml).io_err()?;
 
@@ -218,7 +218,7 @@ impl Compiler for RustCompiler {
             .arg(format!("--prost_out={}", src_dir.display()))
             .arg(format!("--proto_path={}", cfg.source.path.display()));
 
-        if cfg.grpc {
+        if cfg.package.grpc {
             protoc_cmd.arg(format!("--tonic_out={}", src_dir.display()));
         }
 

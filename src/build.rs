@@ -12,16 +12,29 @@ use crate::{
 pub async fn build(cfg: Config, compilers: Vec<Arc<dyn Compiler>>) -> Result<()> {
     let mp = MultiProgress::new();
 
-    println!(
-        "{} {} {} {}",
-        style("[-]").green().bold(),
-        style("Building").bold(),
-        style(format!("{}", cfg.package.name))
-            .magenta()
-            .bold()
-            .underlined(),
-        style(format!("v{}", cfg.package.version)).yellow(),
-    );
+    if cfg.package.grpc {
+        println!(
+            "{} {} {} {} with gRPC",
+            style("[-]").green().bold(),
+            style("Building").bold(),
+            style(format!("{}", cfg.package.name))
+                .magenta()
+                .bold()
+                .underlined(),
+            style(format!("v{}", cfg.package.version)).yellow(),
+        );
+    } else {
+        println!(
+            "{} {} {} {}",
+            style("[-]").green().bold(),
+            style("Building").bold(),
+            style(format!("{}", cfg.package.name))
+                .magenta()
+                .bold()
+                .underlined(),
+            style(format!("v{}", cfg.package.version)).yellow(),
+        );
+    }
 
     let mut handles = Vec::new();
 

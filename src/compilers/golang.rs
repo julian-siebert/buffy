@@ -80,7 +80,7 @@ impl Compiler for GolangCompiler {
             .arg(format!("--go_opt=module={}", &golang_config.module))
             .arg(format!("--proto_path={}", cfg.source.path.display()));
 
-        if cfg.grpc {
+        if cfg.package.grpc {
             protoc_cmd
                 .arg(format!("--go-grpc_out={}", dir.display()))
                 .arg(format!("--go-grpc_opt=module={}", &golang_config.module));

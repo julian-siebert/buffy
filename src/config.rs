@@ -12,18 +12,11 @@ pub struct Config {
     #[serde(default)]
     pub source: Source,
 
-    #[serde(default = "grpc_default")]
-    pub grpc: bool,
-
     pub golang: Option<Golang>,
 
     pub java: Option<Java>,
 
     pub rust: Option<Rust>,
-}
-
-fn grpc_default() -> bool {
-    true
 }
 
 impl Config {
@@ -56,6 +49,12 @@ impl Config {
 pub struct Package {
     pub name: String,
     pub version: Version,
+    #[serde(default = "grpc_default")]
+    pub grpc: bool,
+}
+
+fn grpc_default() -> bool {
+    true
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
