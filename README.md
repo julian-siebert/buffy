@@ -437,8 +437,6 @@ buffy [OPTIONS] [COMMAND]
 |---------|-------------|
 | `init <NAME> [--path <DIR>]` | Create a new `Buffy.toml` and example proto file |
 | `check` | Validate `Buffy.toml` and verify all required tools are installed |
-| `build` | Generate stubs for all configured languages |
-| `publish` | Publish generated stubs to configured registries |
 
 **Options**
 
@@ -458,7 +456,7 @@ buffy init myservice --path ./projects/myservice
 buffy check
 
 # Build only
-buffy build
+buffy
 
 # Build and publish
 buffy --publish

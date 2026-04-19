@@ -355,8 +355,6 @@ impl Compiler for RustCompiler {
             None => return Ok(()),
         };
 
-        return Ok(());
-
         let guard = self.get_work_dir().await;
         let dir = guard
             .as_ref()
