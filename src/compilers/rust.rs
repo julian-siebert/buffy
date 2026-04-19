@@ -148,6 +148,10 @@ impl RustCompiler {
         ctx.insert("lib_name", &lib_name);
         ctx.insert("version", version);
         ctx.insert("edition", &rust_cfg.edition);
+        ctx.insert("license", &rust_cfg.license);
+        ctx.insert("documentation", &rust_cfg.documentation);
+        ctx.insert("homepage", &rust_cfg.homepage);
+        ctx.insert("repository", &rust_cfg.repository);
         ctx.insert("prost_version", prost_version);
         ctx.insert("grpc", &grpc);
         ctx.insert("tonic_version", &tonic_version.unwrap_or(""));

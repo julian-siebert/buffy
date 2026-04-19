@@ -3,6 +3,10 @@ name        = "{{ name }}"
 version     = "{{ version }}"
 edition     = "{{ edition }}"
 description = "Generated protobuf stubs"
+license = "{{ license }}"
+documentation = "{{ documentation }}"
+homepage = "{{ homepage }}"
+repository = "{{ repository }}"
 
 [lib]
 name = "{{ lib_name }}"

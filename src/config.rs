@@ -134,6 +134,14 @@ pub struct Rust {
     #[serde(default = "default_registry")]
     pub registry: String,
 
+    pub license: String,
+
+    pub documentation: String,
+
+    pub homepage: String,
+
+    pub repository: String,
+
     pub prost_version: Option<String>,
 
     pub tonic_version: Option<String>,
