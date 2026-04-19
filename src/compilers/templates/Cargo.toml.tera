@@ -1,0 +1,17 @@
+[package]
+name        = "{{ name }}"
+version     = "{{ version }}"
+edition     = "{{ edition }}"
+description = "Generated protobuf stubs"
+
+[lib]
+name = "{{ lib_name }}"
+path = "src/lib.rs"
+
+[dependencies]
+prost = "{{ prost_version }}"
+prost-types = "{{ prost_version }}"
+{% if grpc %}
+tonic = "{{ tonic_version }}"
+tonic-prost = "{{ tonic_version }}"
+{% endif %}

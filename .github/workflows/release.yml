@@ -1,0 +1,47 @@
+name: Release
+on:
+  push:
+    tags: ["v[0-9]*.[0-9]*.[0-9]*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate semver tag
+        run: |
+          if ! echo "${GITHUB_REF_NAME}" | grep -qP '^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-[a-zA-Z0-9.-]+)?(\+[a-zA-Z0-9.-]+)?$'; then
+            echo "Tag ${GITHUB_REF_NAME} is not a valid semver tag (expected vX.Y.Z)"
+            exit 1
+          fi
+      - uses: actions/checkout@v4
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install tools
+        run: |
+          cargo install cargo-edit
+          cargo install cargo-deb
+          cargo install cargo-generate-rpm
+
+      - name: Set version
+        run: cargo set-version ${{ steps.version.outputs.VERSION }}
+
+      - name: Build
+        run: cargo build --release
+
+      - name: Build .deb
+        run: cargo deb --no-build
+
+      - name: Build .rpm
+        run: cargo generate-rpm
+
+      - name: Upload packages
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            target/debian/*.deb
+            target/generate-rpm/*.rpm
