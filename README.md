@@ -493,7 +493,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install buffy
-        run: cargo install --git https://github.com/your-org/buffy
+        run: cargo install --git https://github.com/julian-siebert/buffy
 
       - name: Build and publish stubs
         env:
