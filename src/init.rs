@@ -116,7 +116,7 @@ service ExampleService {{
     println!(
         "    Edit {} to configure your target languages, then run {}",
         style("Buffy.toml").bold(),
-        style("buffy build").bold().cyan(),
+        style("buffy").bold().cyan(),
     );
 
     Ok(())

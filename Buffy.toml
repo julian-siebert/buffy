@@ -1,0 +1,40 @@
+[package]
+name    = "test"
+version = "0.1.0"
+grpc = true
+
+[source]
+path = "./src"
+
+# Set to false if your .proto files don't define any services
+
+# ── Go ────────────────────────────────────────────────────────────────────────
+# [golang]
+# module = "github.com/your-org/test-go"
+# remote = "git@github.com:your-org/test-go.git"
+# branch = "main"
+
+# ── Rust ──────────────────────────────────────────────────────────────────────
+# [rust]
+# name     = "test-proto"
+# registry = "crates-io"
+
+# ── Java ──────────────────────────────────────────────────────────────────────
+# [java]
+# group_id    = "com.your-org"
+# artifact_id = "test-proto"
+# description = "Generated protobuf stubs for test"
+# url         = "https://github.com/your-org/test"
+#
+# [java.license]
+# name = "Apache-2.0"
+# url  = "https://www.apache.org/licenses/LICENSE-2.0"
+#
+# [java.developer]
+# id    = "your-bot"
+# name  = "Your Name"
+# email = "you@your-org.com"
+#
+# [java.scm]
+# connection = "scm:git:git://github.com/your-org/test.git"
+# url        = "https://github.com/your-org/test"
