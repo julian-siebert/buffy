@@ -23,11 +23,25 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Cache cargo tools
+        id: cache-tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/cargo-set-version
+            ~/.cargo/bin/cargo-deb
+            ~/.cargo/bin/cargo-generate-rpm
+          key: cargo-tools-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Install tools
+        if: steps.cache-tools.outputs.cache-hit != 'true'
         run: |
           cargo install cargo-edit
           cargo install cargo-deb
           cargo install cargo-generate-rpm
+
+      - name: Cache build dependencies
+        uses: Swatinem/rust-cache@v2
 
       - name: Set version
         run: cargo set-version ${{ steps.version.outputs.VERSION }}
