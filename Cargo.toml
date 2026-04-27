@@ -1,6 +1,6 @@
 [package]
 name = "buffy"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Julian Siebert <mail@julian-siebert.de>"]
 edition = "2024"
 description = "A cute Protobuf manager"
