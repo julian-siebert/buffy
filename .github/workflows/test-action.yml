@@ -1,0 +1,164 @@
+name: Test action
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "action.yml"
+      - ".github/workflows/test-action.yml"
+  pull_request:
+    paths:
+      - "action.yml"
+      - ".github/workflows/test-action.yml"
+  schedule:
+    # Daily at 06:00 UTC — catches breakage from infra changes
+    # (e.g. pkgs.julian-siebert.de outage, install.sh regression)
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Buffy version to test against (default: latest)"
+        required: false
+        default: "latest"
+
+concurrency:
+  group: test-action-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test-default:
+    name: Default install on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install buffy via action
+        id: setup
+        uses: ./
+        with:
+          version: ${{ inputs.version || 'latest' }}
+
+      - name: Verify outputs are populated
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${{ steps.setup.outputs.version }}" ]; then
+            echo "::error::version output is empty"
+            exit 1
+          fi
+          if [ -z "${{ steps.setup.outputs.path }}" ]; then
+            echo "::error::path output is empty"
+            exit 1
+          fi
+          echo "Installed version: ${{ steps.setup.outputs.version }}"
+          echo "Binary path:       ${{ steps.setup.outputs.path }}"
+
+      - name: Verify buffy is on PATH
+        shell: bash
+        run: |
+          which buffy || command -v buffy
+          buffy --version
+
+      - name: Verify reported version matches output
+        shell: bash
+        run: |
+          actual=$(buffy --version | awk '{print $NF}')
+          expected="${{ steps.setup.outputs.version }}"
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::version mismatch: PATH binary says '$actual', action output says '$expected'"
+            exit 1
+          fi
+
+  test-pinned-version:
+    name: Pinned version install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # Use a known-published version; bump this when you cut a new release
+      # if you want this job to track recent releases. Otherwise it stays as a
+      # regression test against an old known-good version.
+      - name: Install pinned version
+        id: setup
+        uses: ./
+        with:
+          version: "0.1.0"
+
+      - name: Verify exact version
+        shell: bash
+        run: |
+          actual=$(buffy --version | awk '{print $NF}')
+          if [ "$actual" != "0.1.0" ]; then
+            echo "::error::expected 0.1.0, got '$actual'"
+            exit 1
+          fi
+
+  test-custom-install-dir:
+    name: Custom install-dir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install to custom directory
+        id: setup
+        uses: ./
+        with:
+          install-dir: ${{ github.workspace }}/custom-bin
+
+      - name: Verify binary is in expected location
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="${{ github.workspace }}/custom-bin/buffy"
+          if [ ! -x "$expected" ]; then
+            echo "::error::binary not found at $expected"
+            ls -la "${{ github.workspace }}/custom-bin/" || true
+            exit 1
+          fi
+          echo "::notice::binary correctly placed at $expected"
+
+      - name: Verify it works
+        run: buffy --version
+
+  test-functional:
+    name: Run buffy on a sample project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./
+        with:
+          version: latest
+
+      - name: Create sample protobuf project
+        run: |
+          mkdir -p sample/src
+          cat > sample/Buffy.toml <<'EOF'
+          [package]
+          name = "sample"
+          description = "test fixture"
+          version = "0.1.0"
+          license = "MIT"
+          authors = [{ name = "CI" }]
+          EOF
+          cat > sample/src/hello.proto <<'EOF'
+          syntax = "proto3";
+          package sample;
+          message Hello {
+            string name = 1;
+          }
+          EOF
+
+      # Adjust this command to whatever your most basic invocation is —
+      # `buffy validate`, `buffy check`, etc. The point is to confirm
+      # the installed binary actually does something, not just prints --version.
+      - name: Validate sample project
+        working-directory: sample
+        run: buffy --help
