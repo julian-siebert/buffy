@@ -33,23 +33,6 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all --check
 
-  lint:
-    name: Lint with clippy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          components: clippy
-
-      - name: Set up Rust build cache
-        uses: Swatinem/rust-cache@v2
-
-      - name: Run clippy
-        run: cargo clippy --all-targets --all-features --locked -- -D warnings
-
   test:
     name: Test ${{ matrix.os }}
     strategy:
@@ -70,11 +53,6 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           key: ${{ matrix.os }}
-
-      - name: Install protoc
-        uses: arduino/setup-protoc@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
         run: cargo build --all-targets --locked

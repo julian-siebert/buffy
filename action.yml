@@ -41,14 +41,17 @@ runs:
         fi
         export BUFFY_INSTALL_DIR
 
-        echo "::group::Install buffy v${BUFFY_VERSION}"
+        if [ "$BUFFY_VERSION" = "latest" ]; then
+          echo "::group::Install buffy (latest)"
+        else
+          echo "::group::Install buffy v${BUFFY_VERSION}"
+        fi
         curl --proto '=https' --tlsv1.2 -sSL \
           https://pkgs.julian-siebert.de/buffy/install.sh | sh
         echo "::endgroup::"
 
         echo "$BUFFY_INSTALL_DIR" >> "$GITHUB_PATH"
 
-        # Find binary (with or without .exe)
         if [ -x "$BUFFY_INSTALL_DIR/buffy.exe" ]; then
           binary_path="$BUFFY_INSTALL_DIR/buffy.exe"
         elif [ -x "$BUFFY_INSTALL_DIR/buffy" ]; then

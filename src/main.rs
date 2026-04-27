@@ -79,7 +79,7 @@ async fn main() -> miette::Result<()> {
         return Ok(());
     }
 
-    if let Some(version) = cli.version {
+    if let Some(version) = cli.publish_version {
         config.package.version = version;
     }
 

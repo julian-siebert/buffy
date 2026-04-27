@@ -7,6 +7,7 @@ use semver::Version;
 #[derive(Debug, clap::Parser)]
 #[command(
     name = "buffy",
+    version,
     about = "Generate and publish gRPC/Protobuf stubs for Go, Java, and Rust",
     long_about = "buffy reads your Buffy.toml and runs protoc with the correct \
                   plugins for each configured language, then publishes the \
@@ -16,9 +17,9 @@ pub struct Cli {
     /// Override the version defined in Buffy.toml.
     ///
     /// Useful in CI where the version is derived from a Git tag:
-    ///   buffy --version 1.2.3 --publish
-    #[arg(short, long)]
-    pub version: Option<Version>,
+    ///   buffy --publish-version 1.2.3 --publish
+    #[arg(long)]
+    pub publish_version: Option<Version>,
 
     /// Publish generated stubs after building.
     ///
