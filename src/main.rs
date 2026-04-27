@@ -66,7 +66,7 @@ async fn main() -> miette::Result<()> {
         };
     }
 
-    dotenv::dotenv().ok();
+    dotenvy::dotenv().ok();
 
     let mut config = Config::load()?;
 
