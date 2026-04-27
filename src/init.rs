@@ -5,7 +5,12 @@ use std::path::PathBuf;
 
 const TEMPLATE: &str = r#"[package]
 name    = "{name}"
+description = "Protobuf stubs"
+license = "Apache-2.0"
 version = "0.1.0"
+authors = [
+    { name = "Alice", email = "alice@example.com" },
+]
 grpc = true
 
 [source]
@@ -28,17 +33,7 @@ path = "./src"
 # [java]
 # group_id    = "com.your-org"
 # artifact_id = "{name}-proto"
-# description = "Generated protobuf stubs for {name}"
 # url         = "https://github.com/your-org/{name}"
-#
-# [java.license]
-# name = "Apache-2.0"
-# url  = "https://www.apache.org/licenses/LICENSE-2.0"
-#
-# [java.developer]
-# id    = "your-bot"
-# name  = "Your Name"
-# email = "you@your-org.com"
 #
 # [java.scm]
 # connection = "scm:git:git://github.com/your-org/{name}.git"

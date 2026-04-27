@@ -48,13 +48,31 @@ impl Config {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {
     pub name: String,
+    pub description: String,
     pub version: Version,
+    pub license: String,
+    pub authors: Vec<Author>,
     #[serde(default = "grpc_default")]
     pub grpc: bool,
 }
 
 fn grpc_default() -> bool {
     true
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Author {
+    pub name: String,
+    pub email: Option<String>,
+}
+
+impl std::fmt::Display for Author {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match &self.email {
+            Some(e) => write!(f, "{} <{}>", self.name, e),
+            None => write!(f, "{}", self.name),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -97,27 +115,11 @@ fn default_keep() -> Vec<String> {
 pub struct Java {
     pub group_id: String,
     pub artifact_id: String,
-    pub description: String,
     pub url: String,
-    pub license: JavaLicense,
-    pub developer: JavaDeveloper,
     pub scm: JavaScm,
 
     /// If unset, Maven central api will be used
     pub protobuf_version: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct JavaLicense {
-    pub name: String,
-    pub url: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct JavaDeveloper {
-    pub id: String,
-    pub name: String,
-    pub email: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -133,8 +135,6 @@ pub struct Rust {
     pub edition: String,
     #[serde(default = "default_registry")]
     pub registry: String,
-
-    pub license: String,
 
     pub documentation: String,
 

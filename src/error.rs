@@ -56,6 +56,9 @@ pub enum Error {
     #[error("Missing program: {program}")]
     #[diagnostic(help("Is it installed in PATH?"))]
     MissingProgram { program: String },
+
+    #[error("Invalid SPDX expression: {expr}")]
+    SpdxParse { expr: String },
 }
 pub type Result<T> = std::result::Result<T, Error>;
 

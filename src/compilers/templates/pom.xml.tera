@@ -15,19 +15,25 @@
   <url>{{ url }}</url>
 
   <licenses>
+  {% for license in licenses %}
     <license>
-      <name>{{ license_name }}</name>
-      <url>{{ license_url }}</url>
+      <name>{{ license.name }}</name>
+      <url>{{ license.url }}</url>
+      <distribution>repo</distribution>
     </license>
+  {% endfor %}
   </licenses>
 
+  {% if authors %}
   <developers>
+  {% for author in authors %}
     <developer>
-      <id>{{ developer_id }}</id>
-      <name>{{ developer_name }}</name>
-      <email>{{ developer_email }}</email>
+      <name>{{ author.name }}</name>
+      {% if author.email %}<email>{{ author.email }}</email>{% endif %}
     </developer>
+  {% endfor %}
   </developers>
+  {% endif %}
 
   <scm>
     <connection>{{ scm_connection }}</connection>

@@ -131,6 +131,7 @@ impl RustCompiler {
     }
 
     fn render_cargo_toml(
+        cfg: &Config,
         rust_cfg: &crate::config::Rust,
         version: &str,
         prost_version: &str,
@@ -145,10 +146,18 @@ impl RustCompiler {
 
         let mut ctx = Context::new();
         ctx.insert("name", &rust_cfg.name);
+        ctx.insert("description", &cfg.package.description);
         ctx.insert("lib_name", &lib_name);
         ctx.insert("version", version);
         ctx.insert("edition", &rust_cfg.edition);
-        ctx.insert("license", &rust_cfg.license);
+        let authors_toml: Vec<String> = cfg
+            .package
+            .authors
+            .iter()
+            .map(|a| format!("\"{a}\""))
+            .collect();
+        ctx.insert("authors", &authors_toml);
+        ctx.insert("license", &cfg.package.license);
         ctx.insert("documentation", &rust_cfg.documentation);
         ctx.insert("homepage", &rust_cfg.homepage);
         ctx.insert("repository", &rust_cfg.repository);
@@ -206,6 +215,7 @@ impl Compiler for RustCompiler {
 
         pb.set_message("Generating Cargo.toml...");
         let cargo_toml = Self::render_cargo_toml(
+            &cfg,
             rust_cfg,
             &cfg.package.version.to_string(),
             &prost_version,

@@ -14,6 +14,7 @@ use crate::{
     compilers::collect_proto_files,
     config::Config,
     error::{Error, IoResultExt, Result},
+    license::resolve_licenses,
 };
 
 const POM_TEMPLATE: &str = include_str!("templates/pom.xml.tera");
@@ -94,13 +95,13 @@ impl JavaCompiler {
         ctx.insert("group_id", &java.group_id);
         ctx.insert("artifact_id", &java.artifact_id);
         ctx.insert("version", &cfg.package.version.to_string());
-        ctx.insert("description", &java.description);
+        ctx.insert("description", &cfg.package.description);
         ctx.insert("url", &java.url);
-        ctx.insert("license_name", &java.license.name);
-        ctx.insert("license_url", &java.license.url);
-        ctx.insert("developer_id", &java.developer.id);
-        ctx.insert("developer_name", &java.developer.name);
-        ctx.insert("developer_email", &java.developer.email);
+
+        let licenses = resolve_licenses(&cfg.package.license)?;
+        ctx.insert("licenses", &licenses);
+
+        ctx.insert("authors", &cfg.package.authors);
         ctx.insert("scm_connection", &java.scm.connection);
         ctx.insert("scm_url", &java.scm.url);
         ctx.insert("protobuf_version", protobuf_version);

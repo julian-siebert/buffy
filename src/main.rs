@@ -19,6 +19,7 @@ pub mod config;
 #[allow(unused_assignments)]
 pub mod error;
 mod init;
+pub mod license;
 mod publish;
 
 #[tokio::main]

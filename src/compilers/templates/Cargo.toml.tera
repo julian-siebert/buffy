@@ -2,7 +2,8 @@
 name        = "{{ name }}"
 version     = "{{ version }}"
 edition     = "{{ edition }}"
-description = "Generated protobuf stubs"
+{% if authors %}authors = [{{ authors | join(sep=", ") }}]{% endif %}
+description = "{{ description }}"
 license = "{{ license }}"
 documentation = "{{ documentation }}"
 homepage = "{{ homepage }}"

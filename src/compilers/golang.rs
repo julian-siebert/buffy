@@ -13,6 +13,7 @@ use crate::{
     compilers::collect_proto_files,
     config::Config,
     error::{Error, IoResultExt, Result},
+    license::resolve_licenses,
 };
 
 pub struct GolangCompiler {
@@ -114,6 +115,41 @@ impl Compiler for GolangCompiler {
         .progress(pb.clone())
         .run()
         .await?;
+
+        pb.set_message("Writing LICENSE file(s)...");
+        let licenses = resolve_licenses(&cfg.package.license)?;
+        match licenses.as_slice() {
+            [] => unreachable!("resolve_licenses returns at least one license"),
+            [single] => {
+                std::fs::write(dir.join("LICENSE"), &single.text).io_err()?;
+            }
+            multiple => {
+                let mut index = format!(
+                    "This project is licensed under: {}\n\n\
+                     The full text of each license is provided in the corresponding \
+                     file listed below.\n\n",
+                    cfg.package.license,
+                );
+                for lic in multiple {
+                    let filename = format!("LICENSE-{}", lic.id);
+                    std::fs::write(dir.join(&filename), &lic.text).io_err()?;
+                    index.push_str(&format!("- {}: see {}\n", lic.name, filename));
+                }
+                std::fs::write(dir.join("LICENSE"), index).io_err()?;
+            }
+        }
+
+        pb.set_message("Writing AUTHORS file...");
+        if !cfg.package.authors.is_empty() {
+            let authors_file = cfg
+                .package
+                .authors
+                .iter()
+                .map(|a| a.to_string())
+                .collect::<Vec<_>>()
+                .join("\n");
+            std::fs::write(dir.join("AUTHORS"), authors_file + "\n").io_err()?;
+        }
 
         pb.set_message("Verifying go build...");
         CommandWrapper::new(
