@@ -1,0 +1,64 @@
+name: "Setup buffy"
+description: "Install the buffy CLI from pkgs.julian-siebert.de"
+author: "Julian Siebert"
+branding:
+  icon: "package"
+  color: "purple"
+
+inputs:
+  version:
+    description: 'Version of buffy to install (e.g. "0.1.0", or "latest")'
+    required: false
+    default: "latest"
+  install-dir:
+    description: "Directory to install buffy into"
+    required: false
+    default: ""
+
+outputs:
+  version:
+    description: "The resolved version of buffy that was installed"
+    value: ${{ steps.install.outputs.version }}
+  path:
+    description: "Absolute path to the installed buffy binary"
+    value: ${{ steps.install.outputs.path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install buffy
+      id: install
+      shell: bash
+      env:
+        BUFFY_VERSION: ${{ inputs.version }}
+        BUFFY_INSTALL_DIR: ${{ inputs.install-dir }}
+        BUFFY_NO_MODIFY_PATH: "1"
+      run: |
+        set -euo pipefail
+
+        if [ -z "${BUFFY_INSTALL_DIR:-}" ]; then
+          BUFFY_INSTALL_DIR="$RUNNER_TEMP/buffy-bin"
+        fi
+        export BUFFY_INSTALL_DIR
+
+        echo "::group::Install buffy v${BUFFY_VERSION}"
+        curl --proto '=https' --tlsv1.2 -sSL \
+          https://pkgs.julian-siebert.de/buffy/install.sh | sh
+        echo "::endgroup::"
+
+        echo "$BUFFY_INSTALL_DIR" >> "$GITHUB_PATH"
+
+        # Find binary (with or without .exe)
+        if [ -x "$BUFFY_INSTALL_DIR/buffy.exe" ]; then
+          binary_path="$BUFFY_INSTALL_DIR/buffy.exe"
+        elif [ -x "$BUFFY_INSTALL_DIR/buffy" ]; then
+          binary_path="$BUFFY_INSTALL_DIR/buffy"
+        else
+          echo "::error::buffy binary not found in $BUFFY_INSTALL_DIR"
+          exit 1
+        fi
+
+        installed_version=$("$binary_path" --version | awk '{print $NF}')
+        echo "version=$installed_version" >> "$GITHUB_OUTPUT"
+        echo "path=$binary_path" >> "$GITHUB_OUTPUT"
+        echo "::notice::Installed buffy $installed_version at $binary_path"
