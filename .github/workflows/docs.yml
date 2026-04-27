@@ -1,0 +1,36 @@
+name: Deploy docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: docs-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: "latest"
+
+      - run: mdbook build docs
+
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
+          external_repository: julian-siebert/docs
+          publish_branch: main
+          publish_dir: ./docs/book
+          destination_dir: buffy
+          keep_files: false
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: "deploy: buffy docs from ${{ github.sha }}"

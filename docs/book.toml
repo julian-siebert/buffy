@@ -1,0 +1,9 @@
+[book]
+title = "The Buffy Book"
+authors = ["Julian Siebert"]
+language = "en"
+
+[output.html]
+git-repository-url = "https://github.com/julian-siebert/buffy"
+edit-url-template = "https://github.com/julian-siebert/buffy/edit/main/docs/{path}"
+site-url = "/buffy/"
