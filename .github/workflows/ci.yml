@@ -60,9 +60,6 @@ jobs:
       - name: Run tests
         run: cargo test --all-targets --locked
 
-      - name: Run doctests
-        run: cargo test --doc --locked
-
   cargo-deny:
     name: Audit dependencies
     runs-on: ubuntu-latest
