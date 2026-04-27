@@ -1,3 +1,4 @@
 # Summary
 
-- [Chapter 1](./chapter_1.md)
+* [Buffy Reference](reference/index.md)
+  * [The Manifest Format](reference/manifest.md)
