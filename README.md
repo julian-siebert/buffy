@@ -43,13 +43,6 @@ For specific versions or other installation methods, see the [documentation](htt
 
 Full documentation is available at [docs.julian-siebert.de/buffy](https://docs.julian-siebert.de/buffy/).
 
-## Support
-
-If buffy is useful to you, you can support its development:
-
-- [GitHub Sponsors](https://github.com/sponsors/julian-siebert) for individuals
-- [Open Collective](https://opencollective.com/buffy) for organizations (invoices available)
-
 ## License
 
 Buffy is licensed under the [Apache License, Version 2.0](LICENSE).
