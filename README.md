@@ -8,8 +8,6 @@
   <em>A cute Protobuf manager (in alpha)</em>
 </p>
 
-<div align="center">
-
 <p align="center">
   <a href="https://github.com/julian-siebert/buffy/actions/workflows/ci.yml">
     <img src="https://github.com/julian-siebert/buffy/actions/workflows/ci.yml/badge.svg" alt="CI">
