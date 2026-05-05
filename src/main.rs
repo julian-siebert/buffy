@@ -16,11 +16,15 @@ pub mod command;
 pub mod compiler;
 mod compilers;
 pub mod config;
+pub mod configs;
 #[allow(unused_assignments)]
 pub mod error;
+mod gitignore;
 mod init;
+pub mod io;
 pub mod license;
 mod publish;
+pub mod targets;
 
 #[tokio::main]
 async fn main() -> miette::Result<()> {

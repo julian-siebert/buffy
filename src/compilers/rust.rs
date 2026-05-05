@@ -159,7 +159,7 @@ impl RustCompiler {
         ctx.insert("authors", &authors_toml);
         ctx.insert("license", &cfg.package.license);
         ctx.insert("documentation", &rust_cfg.documentation);
-        ctx.insert("homepage", &rust_cfg.homepage);
+        ctx.insert("homepage", &cfg.package.homepage);
         ctx.insert("repository", &rust_cfg.repository);
         ctx.insert("prost_version", prost_version);
         ctx.insert("grpc", &grpc);

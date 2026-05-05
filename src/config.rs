@@ -52,6 +52,8 @@ pub struct Package {
     pub version: Version,
     pub license: String,
     pub authors: Vec<Author>,
+    pub homepage: String,
+
     #[serde(default = "grpc_default")]
     pub grpc: bool,
 }
@@ -137,8 +139,6 @@ pub struct Rust {
     pub registry: String,
 
     pub documentation: String,
-
-    pub homepage: String,
 
     pub repository: String,
 
