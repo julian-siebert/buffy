@@ -38,19 +38,3 @@ codegen-units = 1
 lto = true
 opt-level = "s"
 strip = true
-
-[package.metadata.deb]
-copyright = "2026, Julian Siebert"
-depends = "$auto"
-section = "utils"
-priority = "optional"
-assets = [
-    ["target/release/buffy", "/usr/bin/buffy", "755" ],
-    ["README.md", "/usr/share/doc/buffy/README.md", "644" ],
-]
-
-[package.metadata.generate-rpm]
-assets = [
-    { source = "target/release/buffy", dest = "/usr/bin/buffy" },
-    { source = "README.md", dest = "/usr/share/doc/buffy/README.md" }
-]

@@ -2,6 +2,10 @@
 
 [Introduction](index.md)
 
+* [Getting Started](getting-started/index.md)
+  * [Installation](getting-started/installation.md)
+  * [First Steps with Buffy](getting-started/first-steps.md)
+
 * [Buffy Reference](reference/index.md)
   * [The Manifest Format](reference/manifest.md)
   * [Profiles Format](reference/profiles.md)
@@ -13,3 +17,6 @@
     * [TypeScript](reference/profiles/typescript.md)
   * [Environment Variables](reference/environment-variables.md)
   * [Command-Line Interface](reference/cli.md)
+
+* [FAQ](faq.md)
+* [Glossary](glossary.md)
