@@ -30,7 +30,7 @@ Buffy builds and publishes Protocol Buffer schemas across multiple language ecos
 curl -sSL https://pkgs.julian-siebert.de/buffy/install.sh | sh
 ```
 
-For specific versions or other installation methods, see the [documentation](https://docs.julian-siebert.de/buffy/installation.html).
+For specific versions or other installation methods, see the [documentation](https://docs.julian-siebert.de/buffy/getting-started/installation).
 
 ## Use in GitHub Actions
 
