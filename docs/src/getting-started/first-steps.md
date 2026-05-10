@@ -1,7 +1,7 @@
 # First Steps with Buffy
 
 This walkthrough creates a small Buffy project, defines a `.proto` schema, and
-generates libraries for two languages — Go and Rust — using the `git` variant
+generates libraries for two languages - Go and Rust - using the `git` variant
 so no registry accounts are needed.
 
 ## Create a project

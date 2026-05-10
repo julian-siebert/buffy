@@ -1,6 +1,6 @@
 use semver::Version;
 
-/// Buffy — generate and publish protobuf libraries for multiple languages.
+/// Buffy - generate and publish protobuf libraries for multiple languages.
 ///
 /// Buffy reads `Buffy.toml` and the profiles in `.buffy/`, generates
 /// language-specific code from your `.proto` files, and (optionally)
