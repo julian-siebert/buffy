@@ -34,6 +34,7 @@ Buffy builds and publishes Protocol Buffer schemas across multiple language ecos
 | Rust       | `crate`, `git`          | crates.io or another Cargo registry      |
 | JavaScript | `npm`, `git`            | npmjs.org or any npm-compatible registry |
 | TypeScript | `npm`, `git`            | npmjs.org or any npm-compatible registry |
+| Python     | `pypi`, `git`           | pypi.org                                 |
 
 ## Installation
 
