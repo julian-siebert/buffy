@@ -15,6 +15,7 @@
     * [Rust](reference/profiles/rust.md)
     * [JavaScript](reference/profiles/javascript.md)
     * [TypeScript](reference/profiles/typescript.md)
+    * [Python](reference/profiles/python.md)
   * [Environment Variables](reference/environment-variables.md)
   * [Command-Line Interface](reference/cli.md)
 

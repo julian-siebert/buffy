@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{ name }}"
+version = "{{ version }}"
+description = "{{ description }}"
+readme = "README.md"
+license = "{{ license }}"
+authors = [
+{% for author in authors %}
+  { name = "{{ author.name }}"{% if author.email %}, email = "{{ author.email }}"{% endif %} }{% if not loop.last %},{% endif %}
+{% endfor %}
+]
+requires-python = ">=3.9"
+dependencies = [
+  "protobuf>={{ protobuf_version }}",
+{% if grpc %}
+  "grpcio>={{ grpcio_version }}",
+{% endif %}
+]
+
+[project.urls]
+Homepage = "{{ homepage }}"
+Repository = "{{ repository }}"
+
+[tool.setuptools.packages.find]
+where = ["src"]

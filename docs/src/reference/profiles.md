@@ -81,6 +81,7 @@ files instead.
 | [`rust`](profiles/rust.md)            | `crate`, `git`            | crates.io or another Cargo registry        |
 | [`javascript`](profiles/javascript.md)| `npm`, `git`              | npmjs.org or any npm-compatible registry   |
 | [`typescript`](profiles/typescript.md)| `npm`, `git`              | npmjs.org or any npm-compatible registry   |
+| [`python`](profiles/python.md)        | `pypi`, `git`             | pypi.org                                   |
 
 Each language is documented in its own chapter, with the full list of fields
 per variant.

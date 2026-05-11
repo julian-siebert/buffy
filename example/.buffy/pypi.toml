@@ -1,0 +1,5 @@
+[python.pypi]
+name = "tomato"
+repository_url = "https://test.pypi.org/legacy/"
+repository = "https://github.com/julian-siebert/buffy-test"
+grpc = true

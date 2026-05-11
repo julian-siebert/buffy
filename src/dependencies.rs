@@ -270,6 +270,61 @@ pub enum DependencyError {
         )
     )]
     Tsc,
+
+    #[error("`python3` not found in PATH")]
+    #[diagnostic(
+        code(deps::python),
+        help(
+            "Install Python 3.9 or newer:\n\
+                 \n\
+                 • macOS:    brew install python\n\
+                 • Debian:   apt install python3 python3-pip python3-venv\n\
+                 • Arch:     pacman -S python python-pip\n\
+                 • Windows:  scoop install python  (or download from https://python.org/)\n\
+                 \n\
+                 After installing, verify with: python3 --version"
+        )
+    )]
+    Python,
+
+    #[error("`grpc_tools.protoc` not available")]
+    #[diagnostic(
+        code(deps::grpcio_tools),
+        help(
+            "Install grpcio-tools (provides protoc with Python and gRPC plugins):\n\
+                 \n\
+                 pip install grpcio-tools\n\
+                 \n\
+                 Verify with: python3 -m grpc_tools.protoc --version"
+        )
+    )]
+    GrpcioTools,
+
+    #[error("`twine` not found in PATH")]
+    #[diagnostic(
+        code(deps::twine),
+        help(
+            "Install twine (PyPI upload tool):\n\
+                 \n\
+                 pip install twine\n\
+                 \n\
+                 Verify with: twine --version"
+        )
+    )]
+    Twine,
+
+    #[error("`build` (PEP 517 builder) not available")]
+    #[diagnostic(
+        code(deps::build),
+        help(
+            "Install the build module:\n\
+                 \n\
+                 pip install build\n\
+                 \n\
+                 Verify with: python3 -m build --version"
+        )
+    )]
+    Build,
 }
 
 pub fn gpg() -> Result<PathBuf, DependencyError> {
@@ -360,4 +415,42 @@ pub fn protoc_gen_ts_proto() -> Result<PathBuf, DependencyError> {
 
 pub fn tsc() -> Result<PathBuf, DependencyError> {
     which("tsc").map_err(|_| DependencyError::Tsc)
+}
+
+pub fn python() -> Result<PathBuf, DependencyError> {
+    which("python3")
+        .or_else(|_| which("python"))
+        .map_err(|_| DependencyError::Python)
+}
+
+pub fn twine() -> Result<PathBuf, DependencyError> {
+    which("twine").map_err(|_| DependencyError::Twine)
+}
+
+/// Verifies grpcio-tools is importable (provides the protoc-based code gen).
+pub fn grpcio_tools() -> Result<(), DependencyError> {
+    let py = python()?;
+    let status = std::process::Command::new(py)
+        .args(["-c", "import grpc_tools.protoc"])
+        .status()
+        .map_err(|_| DependencyError::GrpcioTools)?;
+    if status.success() {
+        Ok(())
+    } else {
+        Err(DependencyError::GrpcioTools)
+    }
+}
+
+/// Verifies the `build` module is importable.
+pub fn python_build() -> Result<(), DependencyError> {
+    let py = python()?;
+    let status = std::process::Command::new(py)
+        .args(["-c", "import build"])
+        .status()
+        .map_err(|_| DependencyError::Build)?;
+    if status.success() {
+        Ok(())
+    } else {
+        Err(DependencyError::Build)
+    }
 }

@@ -10,5 +10,6 @@ The reference covers the details of various areas of Buffy.
   * [Rust](profiles/rust.md) --- Publish to crates.io or via Git.
   * [JavaScript](profiles/javascript.md) --- Publish to npm or via Git.
   * [TypeScript](profiles/typescript.md) --- Publish to npm or via Git.
+  * [Python](profiles/python.md) --- Publish to Pypi or via Git.
 * [Environment Variables](environment-variables.md) --- Credentials and configuration via environment.
 * [Command-Line Interface](cli.md) --- The `buffy` CLI.

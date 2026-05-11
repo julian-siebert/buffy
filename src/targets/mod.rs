@@ -1,5 +1,5 @@
 use crate::{
-    configs::profiles::Profile::{Golang, Java, JavaScript, Kotlin, Rust, TypeScript},
+    configs::profiles::Profile::{Golang, Java, JavaScript, Kotlin, Python, Rust, TypeScript},
     error::Result,
     targets::{
         context::Context,
@@ -11,6 +11,9 @@ use crate::{
         },
         kotlin::{
             build_kotlin_profile_target, check_kotlin_profile_target, publish_kotlin_profile_target,
+        },
+        python::{
+            build_python_profile_target, check_python_profile_target, publish_python_profile_target,
         },
         rust::{build_rust_profile_target, check_rust_profile_target, publish_rust_profile_target},
         typescript::{
@@ -25,6 +28,7 @@ mod golang;
 mod java;
 mod javascript;
 mod kotlin;
+mod python;
 mod rust;
 mod typescript;
 
@@ -36,6 +40,7 @@ pub async fn check_profile_target(ctx: Context) -> Result<()> {
         JavaScript(js) => check_javascript_profile_target(ctx.clone(), js).await?,
         Rust(rust) => check_rust_profile_target(ctx.clone(), rust).await?,
         TypeScript(ts) => check_typescript_profile_target(ctx.clone(), ts).await?,
+        Python(python) => check_python_profile_target(ctx.clone(), python).await?,
     };
 
     Ok(())
@@ -49,6 +54,7 @@ pub async fn build_profile_target(ctx: Context) -> Result<()> {
         JavaScript(js) => build_javascript_profile_target(ctx.clone(), js).await?,
         Rust(rust) => build_rust_profile_target(ctx.clone(), rust).await?,
         TypeScript(ts) => build_typescript_profile_target(ctx.clone(), ts).await?,
+        Python(python) => build_python_profile_target(ctx.clone(), python).await?,
     };
 
     Ok(())
@@ -62,6 +68,7 @@ pub async fn publish_profile_target(ctx: Context) -> Result<()> {
         JavaScript(js) => publish_javascript_profile_target(ctx.clone(), js).await?,
         Rust(rust) => publish_rust_profile_target(ctx.clone(), rust).await?,
         TypeScript(ts) => publish_typescript_profile_target(ctx.clone(), ts).await?,
+        Python(python) => publish_python_profile_target(ctx.clone(), python).await?,
     };
 
     Ok(())
