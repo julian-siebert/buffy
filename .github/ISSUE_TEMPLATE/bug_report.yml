@@ -1,0 +1,99 @@
+name: 🐛 Bug Report
+description: Report something that's broken or behaving unexpectedly.
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill out the form below so we can reproduce and fix it quickly.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug.
+      placeholder: When I run `buffy --publish`, ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      placeholder: I expected buffy to ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: |
+        Step-by-step instructions, ideally with a minimal `Buffy.toml` and `.buffy/<profile>.toml`.
+        If the issue is environment-specific, include relevant tool versions.
+      placeholder: |
+        1. Buffy.toml: ...
+        2. .buffy/rust.toml: ...
+        3. Run `buffy --publish`
+        4. ...
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Output
+      description: |
+        Paste the full command output. If the issue involves a failing external tool (cargo, mvn, npm, ...), include that tool's output too.
+        Re-run with `--verbose` if you didn't already.
+      render: shell
+    validations:
+      required: true
+
+  - type: input
+    id: buffy-version
+    attributes:
+      label: Buffy version
+      description: Output of `buffy --version`.
+      placeholder: buffy 0.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - WSL
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-target
+    attributes:
+      label: Affected language target(s)
+      description: Which profile(s) does this bug affect?
+      multiple: true
+      options:
+        - Go
+        - Java
+        - Kotlin
+        - Rust
+        - JavaScript
+        - TypeScript
+        - Python
+        - Multiple (specify in description)
+        - Not target-specific
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Anything else that might be relevant (config snippets, related issues, workarounds you've tried).

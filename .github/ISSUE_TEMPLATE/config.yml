@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/julian-siebert/buffy/discussions
+    about: For questions, ideas, or general discussion - not for bug reports or feature requests.
+  - name: 📖 Documentation
+    url: https://docs.julian-siebert.de/buffy/
+    about: Check the docs before opening an issue. Your question may already be answered.

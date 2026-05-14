@@ -1,0 +1,25 @@
+name: 📖 Documentation Issue
+description: Report missing, unclear, or incorrect documentation.
+labels: ["documentation", "triage"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      description: URL or path of the doc page.
+      placeholder: https://docs.julian-siebert.de/buffy/reference/profiles/rust
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong or missing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested improvement
+      description: Optional, if you have a concrete suggestion or fix in mind.

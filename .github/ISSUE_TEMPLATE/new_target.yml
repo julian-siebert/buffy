@@ -1,0 +1,70 @@
+name: 🌍 Request a new language / target
+description: Propose support for a new language or publishing variant.
+labels: ["enhancement", "new-target", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adding a new language to Buffy is a non-trivial undertaking. Please use this template to start the discussion before implementing.
+
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      placeholder: e.g. Swift, C#, Elixir, Ruby
+    validations:
+      required: true
+
+  - type: textarea
+    id: usecase
+    attributes:
+      label: Use case
+      description: Why is this language a good fit for Buffy? Who would use it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: tooling
+    attributes:
+      label: Tooling and codegen
+      description: |
+        Which protoc plugin generates code for this language? Is it stable and maintained?
+        What's the equivalent of `cargo build` for verification?
+      placeholder: |
+        - protoc plugin: ...
+        - build tool: ...
+        - typical project layout: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: publishing
+    attributes:
+      label: Publishing destinations
+      description: |
+        Which registries or distribution mechanisms exist for this language?
+        Examples: a public registry (like crates.io), a build-from-source repo, etc.
+      placeholder: |
+        - Primary registry: ...
+        - Auth mechanism: ...
+        - Variants worth supporting: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: prior-art
+    attributes:
+      label: Prior art / references
+      description: Links to other tools doing similar things, official docs, sample projects.
+
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Would you be willing to contribute the implementation?
+      options:
+        - Yes, I'd like to contribute
+        - I can help test
+        - I can review
+        - No, just suggesting
+    validations:
+      required: true

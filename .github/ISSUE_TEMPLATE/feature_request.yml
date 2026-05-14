@@ -1,0 +1,56 @@
+name: ✨ Feature Request
+description: Suggest a new feature or improvement.
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! Before filling out the form, please check the [roadmap](https://github.com/julian-siebert/buffy/blob/main/ROADMAP.md) and existing issues to see if it's already planned or discussed.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the use case, not just the proposed solution.
+      placeholder: When publishing to ..., I currently have to ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How do you imagine this working? Config snippet, CLI flag, behavior change, etc.
+      placeholder: |
+        Add a `xyz` field to the `[rust.crate]` profile that ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you've thought about, or how you currently work around the problem.
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Which area does this affect?
+      multiple: true
+      options:
+        - New language target
+        - New variant for existing language
+        - CLI / UX
+        - Configuration format
+        - Documentation
+        - Container mode
+        - Performance
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Anything else that might help (links to similar features in other tools, real-world examples, etc).
