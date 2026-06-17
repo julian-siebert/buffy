@@ -21,3 +21,5 @@
 
 * [FAQ](faq.md)
 * [Glossary](glossary.md)
+
+[Legal notice](https://books.julian-siebert.de/books/legal-notice)
