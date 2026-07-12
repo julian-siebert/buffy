@@ -15,7 +15,7 @@ jobs:
       group: docs-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: peaceiris/actions-mdbook@v2
         with:
